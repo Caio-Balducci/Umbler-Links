@@ -165,11 +165,10 @@ export default function PaginaDesign() {
           <button
             key={shape}
             onClick={() => atualizarTema({ avatarShape: shape })}
-            className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
-              tema.avatarShape === shape
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border text-gray-600 hover:border-primary/50'
-            }`}
+            className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${tema.avatarShape === shape
+              ? 'border-primary bg-primary/10 text-primary'
+              : 'border-border text-gray-600 hover:border-primary/50'
+              }`}
           >
             {shape === 'circular' ? 'Circular' : shape === 'quadrado' ? 'Quadrado' : 'Com fundo'}
           </button>
@@ -185,11 +184,10 @@ export default function PaginaDesign() {
           <button
             key={tipo}
             onClick={() => atualizarTema({ backgroundType: tipo })}
-            className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
-              tema.backgroundType === tipo
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border text-gray-600 hover:border-primary/50'
-            }`}
+            className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${tema.backgroundType === tipo
+              ? 'border-primary bg-primary/10 text-primary'
+              : 'border-border text-gray-600 hover:border-primary/50'
+              }`}
           >
             {tipo === 'solido' ? 'Cor sólida' : 'Gradiente'}
           </button>
@@ -263,11 +261,10 @@ export default function PaginaDesign() {
           <button
             key={estilo}
             onClick={() => atualizarTema({ buttonStyle: estilo })}
-            className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
-              tema.buttonStyle === estilo
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border text-gray-600 hover:border-primary/50'
-            }`}
+            className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${tema.buttonStyle === estilo
+              ? 'border-primary bg-primary/10 text-primary'
+              : 'border-border text-gray-600 hover:border-primary/50'
+              }`}
           >
             {estilo === 'solido' ? 'Sólido' : 'Borda'}
           </button>
@@ -285,11 +282,10 @@ export default function PaginaDesign() {
             <button
               key={val}
               onClick={() => atualizarTema({ buttonBorderRadius: val })}
-              className={`py-2.5 border transition-colors text-xs font-medium cursor-pointer ${
-                tema.buttonBorderRadius === val
-                  ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border text-gray-600 hover:border-primary/50'
-              }`}
+              className={`py-2.5 border transition-colors text-xs font-medium cursor-pointer ${tema.buttonBorderRadius === val
+                ? 'border-primary bg-primary/10 text-primary'
+                : 'border-border text-gray-600 hover:border-primary/50'
+                }`}
               style={{ borderRadius: radius }}
             >
               Aa
@@ -347,7 +343,7 @@ export default function PaginaDesign() {
           className="flex items-center justify-center bg-gray-100 overflow-hidden"
           style={{ height: 'calc(100dvh - 56px - 108px)' }}
         >
-          <div style={{ transform: 'scale(0.58)', transformOrigin: 'center center' }}>
+          <div style={{ transform: 'scale(0.92)', transformOrigin: 'center center' }}>
             {perfil && <MobilePreview perfil={perfil} links={links} />}
           </div>
         </div>
@@ -361,11 +357,10 @@ export default function PaginaDesign() {
             <button
               key={tab.id}
               onClick={() => setActiveTab((prev) => (prev === tab.id ? null : tab.id))}
-              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-colors cursor-pointer min-w-[44px] ${
-                activeTab === tab.id
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-colors cursor-pointer min-w-[44px] ${activeTab === tab.id
+                ? 'bg-primary/10 text-primary'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <tab.Icon className="h-[18px] w-[18px]" />
               <span className="text-[9px] font-medium leading-none">{tab.label}</span>

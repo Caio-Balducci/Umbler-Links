@@ -1,0 +1,44 @@
+runConfig:
+  concurrency: 100
+  cpu: 1
+  memoryMiB: 512
+  minInstances: 0
+  maxInstances: 100
+
+env:
+  # Firebase Client SDK — public by design, required at BUILD for SSR/prerender
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: AIzaSyAELyD3iu7-_5YJirNajcAi1XDTuBLKCNE
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: umbler-links.firebaseapp.com
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: umbler-links
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: umbler-links.firebasestorage.app
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "405252119018"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: 1:405252119018:web:807aee9e9ace22582b3a93
+    availability:
+      - BUILD
+      - RUNTIME

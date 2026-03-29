@@ -8,6 +8,7 @@ import { getUserProfile, saveUserProfile } from '@/lib/firestore';
 import { useLinks } from '@/hooks/useLinks';
 import { UserProfile, Link as LinkType } from '@/types';
 import { AddLinkModal } from '@/components/editor/AddLinkModal';
+import { AvatarCropModal } from '@/components/editor/AvatarCropModal';
 import { LinkList } from '@/components/editor/LinkList';
 import { MobilePreview } from '@/components/editor/MobilePreview';
 import { Button } from '@/components/ui/button';
@@ -20,6 +21,7 @@ export default function PaginaDashboard() {
   const [modalAberto, setModalAberto] = useState(false);
   const [modalPerfilAberto, setModalPerfilAberto] = useState(false);
   const [copiado, setCopiado] = useState(false);
+  const [imagemCrop, setImagemCrop] = useState<string | null>(null);
   const [modoOrdenacao, setModoOrdenacao] = useState<'manual' | 'mais-cliques' | 'menos-cliques'>('manual');
 
   // Campos do modal de edição
@@ -66,14 +68,24 @@ export default function PaginaDashboard() {
     setModalPerfilAberto(false);
   }
 
-  async function trocarAvatar(e: React.ChangeEvent<HTMLInputElement>) {
+  function trocarAvatar(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (!file || !uid) return;
+    if (!file) return;
+    // Limpa o input para permitir selecionar o mesmo arquivo novamente
+    e.target.value = '';
+    const leitor = new FileReader();
+    leitor.onload = () => setImagemCrop(leitor.result as string);
+    leitor.readAsDataURL(file);
+  }
+
+  async function salvarAvatarCropado(blob: Blob) {
+    if (!uid) return;
     const avatarRef = ref(storage, `avatars/${uid}`);
-    await uploadBytes(avatarRef, file);
+    await uploadBytes(avatarRef, blob);
     const avatarUrl = await getDownloadURL(avatarRef);
     await saveUserProfile(uid, { avatarUrl });
     setPerfil((prev) => prev ? { ...prev, avatarUrl } : prev);
+    setImagemCrop(null);
   }
 
   async function adicionarLink(dados: { type: LinkType['type']; title: string; url: string }) {
@@ -313,6 +325,15 @@ export default function PaginaDashboard() {
       <div className="hidden xl:flex items-start pt-6 pr-8 sticky top-6 self-start">
         {perfil && <MobilePreview perfil={perfil} links={linksOrdenados} />}
       </div>
+
+      {/* ── Modal de crop do avatar ──────────────────────────────── */}
+      {imagemCrop && (
+        <AvatarCropModal
+          imageSrc={imagemCrop}
+          onConfirmar={salvarAvatarCropado}
+          onCancelar={() => setImagemCrop(null)}
+        />
+      )}
 
       {/* ── Modal de adicionar link ───────────────────────────────── */}
       <AddLinkModal

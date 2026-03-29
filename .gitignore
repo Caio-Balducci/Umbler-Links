@@ -42,3 +42,6 @@ next-env.d.ts
 
 # credenciais firebase admin (nunca commitar)
 SDK-firebase.json
+
+# firebase build artifacts
+.firebase/

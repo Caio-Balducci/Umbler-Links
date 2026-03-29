@@ -101,6 +101,27 @@ export function MobilePreview({ perfil, links }: MobilePreviewProps) {
               {perfil.displayName}
             </p>
 
+            {/* Ícones das plataformas — flat design */}
+            {(() => {
+              const vistos = new Set<string>();
+              const unicos = linksAtivos
+                .filter((l) => l.type !== 'personalizado')
+                .filter((l) => { if (vistos.has(l.type)) return false; vistos.add(l.type); return true; });
+              if (unicos.length === 0) return null;
+              return (
+                <div className="flex items-center gap-1.5 flex-wrap justify-center -mt-0.5">
+                  {unicos.map((l) => {
+                    const p = PLATFORMS[l.type as keyof typeof PLATFORMS];
+                    return (
+                      <div key={l.type} className="h-5 w-5 rounded bg-white flex items-center justify-center shadow-sm">
+                        <p.icon className="h-2.5 w-2.5" style={{ color: p.color }} />
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+
             {/* Título */}
             {perfil.title && (
               <p

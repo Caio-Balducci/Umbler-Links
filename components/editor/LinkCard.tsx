@@ -92,13 +92,16 @@ export function LinkCard({ link, modoOrdenacao, totalLinks, posicoesFixadas, onU
 
       {/* Ícone da plataforma */}
       <div
-        className="mt-0.5 h-9 w-9 rounded-lg flex items-center justify-center flex-shrink-0"
-        style={{ backgroundColor: plat ? plat.color + '20' : '#f3f4f6' }}
+        className="mt-0.5 h-11 w-11 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm"
+        style={{
+          backgroundColor: plat ? plat.color : '#9ca3af',
+          boxShadow: plat ? `0 2px 8px ${plat.color}55` : undefined,
+        }}
       >
         {plat ? (
-          <plat.icon className="h-5 w-5" style={{ color: plat.color } as React.CSSProperties} />
+          <plat.icon className="h-5 w-5" style={{ color: '#ffffff' } as React.CSSProperties} />
         ) : (
-          <IconeLink className="h-5 w-5 text-gray-500" />
+          <IconeLink className="h-5 w-5 text-white" />
         )}
       </div>
 

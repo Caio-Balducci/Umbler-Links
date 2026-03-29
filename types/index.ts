@@ -51,6 +51,14 @@ export interface UserProfile {
   createdAt: Timestamp;
   theme: ThemeConfig;
   modoOrdenacao?: 'manual' | 'mais-cliques' | 'menos-cliques';
+  abTest?: {
+    ativo: boolean;
+    runId?: string;      // ID único do teste ativo — usado para tacar cliques
+    nome?: string;
+    inicioEm?: string;   // ISO — quando o teste começa a valer
+    desativarEm?: string; // ISO — quando o teste encerra automaticamente
+  };
+  abTestHistorico?: AbTestRun[];
 }
 
 // Link do usuário — Collection: users/{uid}/links/{linkId}
@@ -58,6 +66,7 @@ export interface Link {
   id: string;
   type: PlatformType | 'personalizado';
   title: string;
+  titleB?: string; // Variante B para teste A/B
   url: string;
   iconUrl?: string;
   order: number;
@@ -75,6 +84,8 @@ export interface ClickEvent {
   timestamp: Timestamp;
   device: 'mobile' | 'desktop' | 'tablet';
   country?: string;
+  variant?: 'A' | 'B'; // Variante do teste A/B exibida no clique
+  abTestRunId?: string; // ID do teste A/B ativo no momento do clique
 }
 
 // Evento de visita à página pública — Collection: visits/{autoId}
@@ -83,6 +94,14 @@ export interface VisitEvent {
   username: string;
   timestamp: Timestamp;
   device: 'mobile' | 'desktop' | 'tablet';
+}
+
+// Registro histórico de um teste A/B encerrado
+export interface AbTestRun {
+  id: string;         // uuid gerado no cliente
+  nome: string;
+  inicioEm: string;  // ISO
+  fimEm: string;     // ISO
 }
 
 // Tema pré-definido para o onboarding

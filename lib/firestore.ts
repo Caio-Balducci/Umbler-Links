@@ -12,9 +12,10 @@ import {
   deleteDoc,
   serverTimestamp,
   limit,
+  arrayUnion,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { UserProfile, Link, ClickEvent, VisitEvent, ThemeConfig } from '@/types';
+import { UserProfile, Link, ClickEvent, VisitEvent, ThemeConfig, AbTestRun } from '@/types';
 
 // ——— Usuários ———
 
@@ -50,6 +51,12 @@ export async function saveUserProfile(uid: string, data: Partial<UserProfile>): 
 export async function updateUserTheme(uid: string, theme: ThemeConfig): Promise<void> {
   const docRef = doc(db, 'users', uid);
   await updateDoc(docRef, { theme });
+}
+
+// Adiciona entrada ao histórico de testes A/B (usa arrayUnion para não sobrescrever)
+export async function adicionarHistoricoAbTest(uid: string, run: AbTestRun): Promise<void> {
+  const docRef = doc(db, 'users', uid);
+  await updateDoc(docRef, { abTestHistorico: arrayUnion(run) });
 }
 
 // ——— Links ———

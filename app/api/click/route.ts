@@ -22,7 +22,7 @@ function detectarDispositivo(userAgent: string): 'mobile' | 'desktop' | 'tablet'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { linkId, userId, username } = body;
+    const { linkId, userId, username, variant, abTestRunId } = body;
 
     if (!linkId || !userId || !username) {
       return NextResponse.json({ erro: 'Dados incompletos' }, { status: 400 });
@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
         username,
         device,
         timestamp: FieldValue.serverTimestamp(),
+        ...(variant ? { variant } : {}),
+        ...(abTestRunId ? { abTestRunId } : {}),
       }),
       db.doc(`users/${userId}/links/${linkId}`).update({
         clickCount: FieldValue.increment(1),

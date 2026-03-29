@@ -462,11 +462,11 @@ export default function PaginaOnboarding() {
                               borderRadius:
                                 tema.config.buttonBorderRadius === 'full'
                                   ? '9999px'
-                                  : tema.config.buttonBorderRadius === 'mais-arredondado'
-                                  ? '12px'
                                   : tema.config.buttonBorderRadius === 'arredondado'
-                                  ? '6px'
-                                  : '2px',
+                                  ? '8px'
+                                  : tema.config.buttonBorderRadius === 'quadrado'
+                                  ? '4px'
+                                  : '0px',
                             }}
                           />
                         ))}

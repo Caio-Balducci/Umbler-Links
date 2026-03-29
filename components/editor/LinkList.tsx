@@ -21,12 +21,14 @@ import { LinkCard } from './LinkCard';
 
 interface LinkListProps {
   links: LinkType[];
+  modoOrdenacao: 'manual' | 'mais-cliques' | 'menos-cliques';
   onReordenar: (links: LinkType[]) => void;
   onUpdate: (id: string, dados: Partial<LinkType>) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
+  onFixar: (id: string, posicao: number) => void;
 }
 
-export function LinkList({ links, onReordenar, onUpdate, onDelete }: LinkListProps) {
+export function LinkList({ links, modoOrdenacao, onReordenar, onUpdate, onDelete, onFixar }: LinkListProps) {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -38,15 +40,32 @@ export function LinkList({ links, onReordenar, onUpdate, onDelete }: LinkListPro
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const oldIndex = links.findIndex((l) => l.id === active.id);
-    const newIndex = links.findIndex((l) => l.id === over.id);
+    const overLink = links.find((l) => l.id === over.id);
 
-    const reordenados = arrayMove(links, oldIndex, newIndex).map((l, i) => ({
-      ...l,
-      order: i,
-    }));
+    // Não permite arrastar para cima de um link fixado
+    if (overLink?.pinned) return;
 
-    onReordenar(reordenados);
+    // Posições fixadas no array atual (índice → link fixado)
+    const posicoesPinadas: Record<number, LinkType> = {};
+    links.forEach((l, i) => { if (l.pinned) posicoesPinadas[i] = l; });
+
+    // Reordena apenas os links livres
+    const livres = links.filter((l) => !l.pinned);
+    const oldFreeIndex = livres.findIndex((l) => l.id === active.id);
+    const newFreeIndex = livres.findIndex((l) => l.id === over.id);
+    const livresReordenados = arrayMove(livres, oldFreeIndex, newFreeIndex);
+
+    // Reconstrói o array completo: fixados nas posições originais, livres nas demais
+    const resultado: LinkType[] = new Array(links.length);
+    Object.entries(posicoesPinadas).forEach(([idx, link]) => {
+      resultado[parseInt(idx)] = link;
+    });
+    let livreIdx = 0;
+    for (let i = 0; i < resultado.length; i++) {
+      if (!resultado[i]) resultado[i] = livresReordenados[livreIdx++];
+    }
+
+    onReordenar(resultado.map((l, i) => ({ ...l, order: i })));
   }
 
   if (links.length === 0) {
@@ -72,12 +91,18 @@ export function LinkList({ links, onReordenar, onUpdate, onDelete }: LinkListPro
     >
       <SortableContext items={links.map((l) => l.id)} strategy={verticalListSortingStrategy}>
         <div className="space-y-2">
-          {links.map((link) => (
+          {links.map((link, idx) => (
             <LinkCard
               key={link.id}
               link={link}
+              modoOrdenacao={modoOrdenacao}
+              totalLinks={links.length}
+              posicoesFixadas={links
+                .map((l, i) => (l.pinned && i !== idx ? i : -1))
+                .filter((i) => i !== -1)}
               onUpdate={onUpdate}
               onDelete={onDelete}
+              onFixar={onFixar}
             />
           ))}
         </div>

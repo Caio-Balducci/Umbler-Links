@@ -138,7 +138,7 @@ export default function PaginaDesign() {
               <button
                 key={e.nome}
                 onClick={() => aplicarEsquema(e)}
-                className="rounded-lg border border-border p-2 text-xs font-medium text-gray-700 hover:border-primary hover:bg-primary/5 transition-colors text-center"
+                className="rounded-lg border border-border p-2 text-xs font-medium text-gray-700 hover:border-primary hover:bg-primary/5 transition-colors text-center cursor-pointer"
               >
                 {e.nome}
               </button>
@@ -159,7 +159,7 @@ export default function PaginaDesign() {
                   <button
                     key={shape}
                     onClick={() => atualizarTema({ avatarShape: shape })}
-                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${tema.avatarShape === shape
+                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${tema.avatarShape === shape
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border text-gray-600 hover:border-primary/50'
                       }`}
@@ -182,7 +182,7 @@ export default function PaginaDesign() {
                   <button
                     key={tipo}
                     onClick={() => atualizarTema({ backgroundType: tipo })}
-                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${tema.backgroundType === tipo
+                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${tema.backgroundType === tipo
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border text-gray-600 hover:border-primary/50'
                       }`}
@@ -269,7 +269,7 @@ export default function PaginaDesign() {
                   <button
                     key={estilo}
                     onClick={() => atualizarTema({ buttonStyle: estilo })}
-                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${tema.buttonStyle === estilo
+                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${tema.buttonStyle === estilo
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border text-gray-600 hover:border-primary/50'
                       }`}
@@ -292,7 +292,7 @@ export default function PaginaDesign() {
                     <button
                       key={val}
                       onClick={() => atualizarTema({ buttonBorderRadius: val })}
-                      className={`py-2.5 border transition-colors text-xs font-medium ${tema.buttonBorderRadius === val
+                      className={`py-2.5 border transition-colors text-xs font-medium cursor-pointer ${tema.buttonBorderRadius === val
                           ? 'border-primary bg-primary/10 text-primary'
                           : 'border-border text-gray-600 hover:border-primary/50'
                         }`}

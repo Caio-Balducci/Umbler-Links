@@ -50,6 +50,7 @@ export interface UserProfile {
   howFoundUs?: string;
   createdAt: Timestamp;
   theme: ThemeConfig;
+  modoOrdenacao?: 'manual' | 'mais-cliques' | 'menos-cliques';
 }
 
 // Link do usuário — Collection: users/{uid}/links/{linkId}
@@ -62,6 +63,7 @@ export interface Link {
   order: number;
   active: boolean;
   clickCount: number;
+  pinned?: boolean;
   createdAt: Timestamp;
 }
 
@@ -73,6 +75,14 @@ export interface ClickEvent {
   timestamp: Timestamp;
   device: 'mobile' | 'desktop' | 'tablet';
   country?: string;
+}
+
+// Evento de visita à página pública — Collection: visits/{autoId}
+export interface VisitEvent {
+  userId: string;
+  username: string;
+  timestamp: Timestamp;
+  device: 'mobile' | 'desktop' | 'tablet';
 }
 
 // Tema pré-definido para o onboarding

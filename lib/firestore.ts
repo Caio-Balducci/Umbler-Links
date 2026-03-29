@@ -14,7 +14,7 @@ import {
   limit,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { UserProfile, Link, ClickEvent, ThemeConfig } from '@/types';
+import { UserProfile, Link, ClickEvent, VisitEvent, ThemeConfig } from '@/types';
 
 // ——— Usuários ———
 
@@ -113,4 +113,13 @@ export async function getUserClicks(userId: string): Promise<ClickEvent[]> {
   const q = query(collection(db, 'clicks'), where('userId', '==', userId));
   const snap = await getDocs(q);
   return snap.docs.map((d) => d.data() as ClickEvent);
+}
+
+// ——— Visitas ———
+
+// Busca visitas do usuário (para analytics)
+export async function getUserVisits(userId: string): Promise<VisitEvent[]> {
+  const q = query(collection(db, 'visits'), where('userId', '==', userId));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => d.data() as VisitEvent);
 }

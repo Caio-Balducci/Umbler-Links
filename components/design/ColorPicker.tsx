@@ -35,10 +35,11 @@ export function ColorPicker({ cor, onChange, label }: ColorPickerProps) {
   useEffect(() => {
     if (!aberto) return;
     function update() {
-      if (!btnRef.current) return;
+      if (!btnRef.current || !popoverRef.current) return;
       const rect = btnRef.current.getBoundingClientRect();
+      const popH = popoverRef.current.offsetHeight;
       setPos({
-        top: rect.bottom + 6,
+        top: rect.top - popH - 6,
         left: rect.left,
       });
     }
@@ -54,7 +55,8 @@ export function ColorPicker({ cor, onChange, label }: ColorPickerProps) {
   function toggle() {
     if (!aberto && btnRef.current) {
       const rect = btnRef.current.getBoundingClientRect();
-      setPos({ top: rect.bottom + 6, left: rect.left });
+      // Estimativa antes de montar — ajuste fino feito pelo useEffect após render
+      setPos({ top: rect.top - 240, left: rect.left });
     }
     setAberto((v) => !v);
   }
@@ -66,7 +68,7 @@ export function ColorPicker({ cor, onChange, label }: ColorPickerProps) {
         ref={btnRef}
         type="button"
         onClick={toggle}
-        className="flex items-center gap-2 rounded-lg border border-border px-2.5 py-1.5 hover:bg-gray-50 transition-colors"
+        className="flex items-center gap-2 rounded-lg border border-border px-2.5 py-1.5 hover:bg-gray-50 transition-colors cursor-pointer"
         title={cor}
       >
         <span

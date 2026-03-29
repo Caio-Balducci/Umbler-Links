@@ -70,7 +70,7 @@ export function AddLinkModal({ aberto, onFechar, onAdicionar }: AddLinkModalProp
                   <button
                     key={tipo}
                     onClick={() => selecionarPlataforma(tipo)}
-                    className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5 text-sm font-medium text-gray-700 hover:border-primary/50 hover:bg-gray-50 transition-colors text-left"
+                    className="flex items-center gap-2.5 rounded-lg border border-border px-3 py-2.5 text-sm font-medium text-gray-700 hover:border-primary/50 hover:bg-gray-50 transition-colors text-left cursor-pointer"
                   >
                     <div
                       className="h-7 w-7 rounded-md flex items-center justify-center flex-shrink-0"
@@ -89,7 +89,7 @@ export function AddLinkModal({ aberto, onFechar, onAdicionar }: AddLinkModalProp
               {/* Link personalizado */}
               <button
                 onClick={() => selecionarPlataforma('personalizado')}
-                className="flex items-center gap-2.5 rounded-lg border border-dashed border-border px-3 py-2.5 text-sm font-medium text-gray-700 hover:border-primary/50 hover:bg-gray-50 transition-colors text-left"
+                className="flex items-center gap-2.5 rounded-lg border border-dashed border-border px-3 py-2.5 text-sm font-medium text-gray-700 hover:border-primary/50 hover:bg-gray-50 transition-colors text-left cursor-pointer"
               >
                 <div className="h-7 w-7 rounded-md bg-gray-100 flex items-center justify-center flex-shrink-0">
                   <IconeLink className="h-4 w-4 text-gray-500" />
@@ -102,7 +102,7 @@ export function AddLinkModal({ aberto, onFechar, onAdicionar }: AddLinkModalProp
           <div className="space-y-4">
             <button
               onClick={() => setPlataformaSelecionada(null)}
-              className="flex items-center gap-1 text-sm text-primary hover:underline"
+              className="flex items-center gap-1 text-sm text-primary hover:underline cursor-pointer"
             >
               ← Voltar
             </button>

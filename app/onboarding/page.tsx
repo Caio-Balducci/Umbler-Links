@@ -436,7 +436,7 @@ export default function PaginaOnboarding() {
                       key={tema.id}
                       type="button"
                       onClick={() => setTemaSelecionado(tema.id)}
-                      className={`relative rounded-xl border-2 p-0 overflow-hidden transition-all ${
+                      className={`relative rounded-xl border-2 p-0 overflow-hidden transition-all cursor-pointer ${
                         temaSelecionado === tema.id
                           ? 'border-primary ring-2 ring-primary/30'
                           : 'border-border hover:border-primary/50'
@@ -508,7 +508,7 @@ export default function PaginaOnboarding() {
                       key={p.id}
                       type="button"
                       onClick={() => togglePlataforma(p.id)}
-                      className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium transition-all ${
+                      className={`flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium transition-all cursor-pointer ${
                         selecionado
                           ? 'border-primary bg-primary/5 text-primary'
                           : 'border-border text-gray-700 hover:border-primary/50'

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   BarChart,
   Bar,
@@ -29,61 +29,138 @@ function toDate(ts: unknown): Date {
   if (ts && typeof (ts as { toDate?: () => Date }).toDate === 'function') {
     return (ts as { toDate: () => Date }).toDate();
   }
+  if (typeof ts === 'string') return new Date(ts);
   return new Date();
+}
+
+const CORES = [
+  '#6B2FD9','#8B4FF0','#E1306C','#1877F2','#25D366',
+  '#FF0000','#0A66C2','#FF6719','#EA4335','#000000',
+];
+
+function corDaPlataforma(tipo: string, index: number): string {
+  if (tipo !== 'personalizado' && PLATFORMS[tipo as keyof typeof PLATFORMS]) {
+    return PLATFORMS[tipo as keyof typeof PLATFORMS].color;
+  }
+  return CORES[index % CORES.length];
 }
 
 export function ClickChart({ cliques, links }: ClickChartProps) {
   const [visao, setVisao] = useState<'barras' | 'pizza' | 'horarios'>('barras');
+  const [plataformaFiltro, setPlataformaFiltro] = useState<string>('todas');
 
   const mapaLinks: Record<string, LinkType> = {};
   links.forEach((l) => (mapaLinks[l.id] = l));
 
-  // ── Cliques por dia (últimos 7 dias) ──────────────────────────
-  const dadosPorDia = Array.from({ length: 7 }, (_, i) => {
-    const dia = subDays(new Date(), 6 - i);
-    const inicio = startOfDay(dia).getTime();
-    const fim = inicio + 86400000;
-    const total = cliques.filter((c) => {
-      const t = toDate(c.timestamp).getTime();
-      return t >= inicio && t < fim;
-    }).length;
-    return { dia: format(dia, 'EEE', { locale: ptBR }), cliques: total };
-  });
+  // Lista de plataformas que têm cliques
+  const plataformasComCliques = useMemo(() => {
+    const tipos = new Set<string>();
+    cliques.forEach((c) => {
+      const tipo = mapaLinks[c.linkId]?.type ?? 'personalizado';
+      tipos.add(tipo);
+    });
+    return Array.from(tipos);
+  }, [cliques, mapaLinks]);
 
-  // ── Distribuição por link ─────────────────────────────────────
-  const porLink: Record<string, number> = {};
-  cliques.forEach((c) => {
-    porLink[c.linkId] = (porLink[c.linkId] ?? 0) + 1;
-  });
-  const dadosPizza = Object.entries(porLink)
-    .map(([id, total]) => ({
-      nome: mapaLinks[id]?.title ?? id,
-      tipo: mapaLinks[id]?.type ?? 'website',
-      total,
-    }))
-    .sort((a, b) => b.total - a.total)
-    .slice(0, 8);
+  // Cliques filtrados pela plataforma selecionada
+  const cliquesFiltrados = useMemo(() => {
+    if (plataformaFiltro === 'todas') return cliques;
+    return cliques.filter((c) => (mapaLinks[c.linkId]?.type ?? 'personalizado') === plataformaFiltro);
+  }, [cliques, plataformaFiltro, mapaLinks]);
 
-  // ── Horários quentes (0–23) ───────────────────────────────────
-  const porHora = Array.from({ length: 24 }, (_, h) => ({
-    hora: `${String(h).padStart(2, '0')}h`,
-    cliques: cliques.filter((c) => toDate(c.timestamp).getHours() === h).length,
-  }));
+  // ── Cliques por dia — separado por plataforma ─────────────────
+  const { dadosPorDia, plataformasNoDia } = useMemo(() => {
+    // Quais plataformas aparecem nos cliques filtrados (para as barras)
+    const tipos = new Set<string>();
+    cliquesFiltrados.forEach((c) => {
+      tipos.add(mapaLinks[c.linkId]?.type ?? 'personalizado');
+    });
+    const plataformasNoDia = Array.from(tipos);
 
-  const cores = [
-    '#6B2FD9','#8B4FF0','#E1306C','#1877F2','#25D366',
-    '#FF0000','#0A66C2','#FF6719','#EA4335','#000000',
-  ];
+    const dadosPorDia = Array.from({ length: 7 }, (_, i) => {
+      const dia = subDays(new Date(), 6 - i);
+      const inicio = startOfDay(dia).getTime();
+      const fim = inicio + 86400000;
+      const cliquesdoDia = cliquesFiltrados.filter((c) => {
+        const t = toDate(c.timestamp).getTime();
+        return t >= inicio && t < fim;
+      });
+
+      const entrada: Record<string, number | string> = {
+        dia: format(dia, 'EEE', { locale: ptBR }),
+      };
+      plataformasNoDia.forEach((tipo) => {
+        entrada[tipo] = cliquesdoDia.filter(
+          (c) => (mapaLinks[c.linkId]?.type ?? 'personalizado') === tipo
+        ).length;
+      });
+      return entrada;
+    });
+
+    return { dadosPorDia, plataformasNoDia };
+  }, [cliquesFiltrados, mapaLinks]);
+
+  // ── Distribuição por link (pizza) ─────────────────────────────
+  const dadosPizza = useMemo(() => {
+    const porLink: Record<string, number> = {};
+    cliques.forEach((c) => {
+      porLink[c.linkId] = (porLink[c.linkId] ?? 0) + 1;
+    });
+    return Object.entries(porLink)
+      .map(([id, total]) => ({
+        nome: mapaLinks[id]?.title ?? id,
+        tipo: mapaLinks[id]?.type ?? 'personalizado',
+        total,
+      }))
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 8);
+  }, [cliques, mapaLinks]);
+
+  // ── Horários quentes — separado por plataforma ────────────────
+  const { dadosPorHora, plataformasNaHora } = useMemo(() => {
+    const tipos = new Set<string>();
+    cliquesFiltrados.forEach((c) => {
+      tipos.add(mapaLinks[c.linkId]?.type ?? 'personalizado');
+    });
+    const plataformasNaHora = Array.from(tipos);
+
+    const dadosPorHora = Array.from({ length: 24 }, (_, h) => {
+      const cliquesNaHora = cliquesFiltrados.filter(
+        (c) => toDate(c.timestamp).getHours() === h
+      );
+      const entrada: Record<string, number | string> = {
+        hora: `${String(h).padStart(2, '0')}h`,
+      };
+      plataformasNaHora.forEach((tipo) => {
+        entrada[tipo] = cliquesNaHora.filter(
+          (c) => (mapaLinks[c.linkId]?.type ?? 'personalizado') === tipo
+        ).length;
+      });
+      return entrada;
+    });
+
+    return { dadosPorHora, plataformasNaHora };
+  }, [cliquesFiltrados, mapaLinks]);
+
+  // Label legível da plataforma
+  function labelPlataforma(tipo: string): string {
+    if (tipo !== 'personalizado' && PLATFORMS[tipo as keyof typeof PLATFORMS]) {
+      return PLATFORMS[tipo as keyof typeof PLATFORMS].label;
+    }
+    return 'Personalizado';
+  }
+
+  const mostrarFiltro = visao === 'barras' || visao === 'horarios';
 
   return (
     <div className="space-y-4">
       {/* Seletor de visão */}
       <div className="flex gap-2 flex-wrap">
-        {([['barras', 'Cliques por dia'], ['pizza', 'Por link'], ['horarios', 'Horários']] as const).map(([v, label]) => (
+        {([['barras', 'Cliques por dia da semana'], ['pizza', 'Por link'], ['horarios', 'Horários']] as const).map(([v, label]) => (
           <button
             key={v}
             onClick={() => setVisao(v)}
-            className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`rounded-lg px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer ${
               visao === v
                 ? 'bg-primary text-primary-foreground'
                 : 'border border-border text-gray-600 hover:bg-gray-50'
@@ -94,6 +171,37 @@ export function ClickChart({ cliques, links }: ClickChartProps) {
         ))}
       </div>
 
+      {/* Filtro por plataforma */}
+      {mostrarFiltro && plataformasComCliques.length > 1 && (
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-xs text-muted-foreground font-medium">Plataforma:</span>
+          <button
+            onClick={() => setPlataformaFiltro('todas')}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors cursor-pointer ${
+              plataformaFiltro === 'todas'
+                ? 'bg-gray-800 text-white'
+                : 'border border-border text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            Todas
+          </button>
+          {plataformasComCliques.map((tipo) => (
+            <button
+              key={tipo}
+              onClick={() => setPlataformaFiltro(tipo)}
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors cursor-pointer ${
+                plataformaFiltro === tipo
+                  ? 'text-white'
+                  : 'border border-border text-gray-600 hover:bg-gray-50'
+              }`}
+              style={plataformaFiltro === tipo ? { backgroundColor: corDaPlataforma(tipo, 0) } : {}}
+            >
+              {labelPlataforma(tipo)}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Gráfico */}
       <div className="h-60 w-full">
         {visao === 'barras' && (
@@ -102,10 +210,21 @@ export function ClickChart({ cliques, links }: ClickChartProps) {
               <XAxis dataKey="dia" tick={{ fontSize: 11 }} />
               <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
               <Tooltip
-                formatter={(v) => [`${v} clique${v !== 1 ? 's' : ''}`, 'Total']}
+                formatter={(v, name) => [`${v} clique${v !== 1 ? 's' : ''}`, labelPlataforma(name as string)]}
                 labelFormatter={(l) => `Dia: ${l}`}
               />
-              <Bar dataKey="cliques" fill="#6B2FD9" radius={[4, 4, 0, 0]} />
+              {plataformasNoDia.length > 1 && (
+                <Legend formatter={(v) => labelPlataforma(v)} />
+              )}
+              {plataformasNoDia.map((tipo, i) => (
+                <Bar
+                  key={tipo}
+                  dataKey={tipo}
+                  stackId="a"
+                  fill={corDaPlataforma(tipo, i)}
+                  radius={i === plataformasNoDia.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
+                />
+              ))}
             </BarChart>
           </ResponsiveContainer>
         )}
@@ -128,11 +247,7 @@ export function ClickChart({ cliques, links }: ClickChartProps) {
                 {dadosPizza.map((entry, i) => (
                   <Cell
                     key={entry.nome}
-                    fill={
-                      entry.tipo !== 'personalizado'
-                        ? PLATFORMS[entry.tipo as keyof typeof PLATFORMS]?.color ?? cores[i % cores.length]
-                        : cores[i % cores.length]
-                    }
+                    fill={corDaPlataforma(entry.tipo, i)}
                   />
                 ))}
               </Pie>
@@ -144,18 +259,25 @@ export function ClickChart({ cliques, links }: ClickChartProps) {
 
         {visao === 'horarios' && (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={porHora} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
-              <XAxis
-                dataKey="hora"
-                tick={{ fontSize: 9 }}
-                interval={3}
-              />
+            <BarChart data={dadosPorHora} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+              <XAxis dataKey="hora" tick={{ fontSize: 9 }} interval={3} />
               <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
               <Tooltip
-                formatter={(v) => [`${v} clique${v !== 1 ? 's' : ''}`, '']}
+                formatter={(v, name) => [`${v} clique${v !== 1 ? 's' : ''}`, labelPlataforma(name as string)]}
                 labelFormatter={(l) => `Horário: ${l}`}
               />
-              <Bar dataKey="cliques" fill="#8B4FF0" radius={[3, 3, 0, 0]} />
+              {plataformasNaHora.length > 1 && (
+                <Legend formatter={(v) => labelPlataforma(v)} />
+              )}
+              {plataformasNaHora.map((tipo, i) => (
+                <Bar
+                  key={tipo}
+                  dataKey={tipo}
+                  stackId="a"
+                  fill={corDaPlataforma(tipo, i)}
+                  radius={i === plataformasNaHora.length - 1 ? [3, 3, 0, 0] : [0, 0, 0, 0]}
+                />
+              ))}
             </BarChart>
           </ResponsiveContainer>
         )}

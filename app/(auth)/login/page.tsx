@@ -111,7 +111,7 @@ export default function PaginaLogin() {
           type="button"
           onClick={entrarComGoogle}
           disabled={carregandoGoogle}
-          className="w-full flex items-center justify-center gap-3 rounded-lg border border-border bg-white py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-60"
+          className="w-full flex items-center justify-center gap-3 rounded-lg border border-border bg-white py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
         >
           <GoogleIcon />
           {carregandoGoogle ? 'Conectando...' : 'Continuar com Google'}
@@ -146,7 +146,7 @@ export default function PaginaLogin() {
               <button
                 type="button"
                 onClick={esqueceuSenha}
-                className="text-xs text-primary hover:underline"
+                className="text-xs text-primary hover:underline cursor-pointer"
               >
                 Esqueci minha senha
               </button>

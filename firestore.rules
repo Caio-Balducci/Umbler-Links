@@ -19,5 +19,11 @@ service cloud.firestore {
       allow create: if true;
       allow read: if request.auth != null && request.auth.uid == resource.data.userId;
     }
+
+    // Visitas — qualquer um pode registrar, somente o dono lê
+    match /visits/{visitId} {
+      allow create: if true;
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
   }
 }

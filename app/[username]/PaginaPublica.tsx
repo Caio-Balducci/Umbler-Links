@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { UserProfile, Link as LinkType } from '@/types';
 import { PLATFORMS } from '@/lib/platforms';
 import { temaDefault } from '@/lib/tema-default';
@@ -12,16 +13,29 @@ interface PaginaPublicaProps {
 }
 
 function registrarClique(linkId: string, userId: string, username: string) {
-  // Não-bloqueante: dispara e esquece
   fetch('/api/click', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ linkId, userId, username }),
-  }).catch(() => {/* silencia erros de rede */ });
+  }).catch(() => {});
+}
+
+function registrarVisita(userId: string, username: string) {
+  fetch('/api/visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, username }),
+  }).catch(() => {});
 }
 
 export default function PaginaPublica({ perfil, links }: PaginaPublicaProps) {
   const tema = perfil.theme ?? temaDefault();
+
+  // Registra visita uma vez ao montar a página
+  useEffect(() => {
+    registrarVisita(perfil.uid, perfil.username);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const isGrad = tema.backgroundType === 'gradiente';
   const bgStyle = isGrad

@@ -35,7 +35,7 @@ export function MobilePreview({ perfil, links }: MobilePreviewProps) {
     'Space Mono': '"Space Mono", monospace',
   };
 
-  const linksAtivos = links.filter((l) => l.active).sort((a, b) => a.order - b.order);
+  const linksAtivos = links.filter((l) => l.active);
 
   return (
     <div className="flex-shrink-0 mx-auto w-[270px]">

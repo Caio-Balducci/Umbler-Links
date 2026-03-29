@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, storage } from '@/lib/firebase';
-import { getUserProfile, saveUserProfile, updateLink } from '@/lib/firestore';
+import { getUserProfile, saveUserProfile } from '@/lib/firestore';
 import { useLinks } from '@/hooks/useLinks';
 import { UserProfile, Link as LinkType } from '@/types';
 import { AddLinkModal } from '@/components/editor/AddLinkModal';
@@ -29,7 +29,7 @@ export default function PaginaDashboard() {
   const [bioTemp, setBioTemp] = useState('');
 
   const inputAvatarRef = useRef<HTMLInputElement>(null);
-  const { links, carregando: carregandoLinks, adicionar, atualizar, remover } = useLinks(uid);
+  const { links, carregando: carregandoLinks, adicionar, atualizar, remover, reordenar } = useLinks(uid);
 
   useEffect(() => {
     const cancelar = onAuthStateChanged(auth, async (user) => {
@@ -76,12 +76,8 @@ export default function PaginaDashboard() {
     });
   }
 
-  async function reordenarLinks(reordenados: LinkType[]) {
-    if (!uid) return;
-    // Atualiza localmente de imediato
-    for (const link of reordenados) {
-      await updateLink(uid, link.id, { order: link.order });
-    }
+  function reordenarLinks(reordenados: LinkType[]) {
+    reordenar(reordenados);
   }
 
   function copiarLink() {

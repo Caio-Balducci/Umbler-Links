@@ -159,11 +159,10 @@ export default function PaginaDesign() {
                   <button
                     key={shape}
                     onClick={() => atualizarTema({ avatarShape: shape })}
-                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${
-                      tema.avatarShape === shape
+                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${tema.avatarShape === shape
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border text-gray-600 hover:border-primary/50'
-                    }`}
+                      }`}
                   >
                     {shape === 'circular' ? 'Circular' : shape === 'quadrado' ? 'Quadrado' : 'Com fundo'}
                   </button>
@@ -183,11 +182,10 @@ export default function PaginaDesign() {
                   <button
                     key={tipo}
                     onClick={() => atualizarTema({ backgroundType: tipo })}
-                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${
-                      tema.backgroundType === tipo
+                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${tema.backgroundType === tipo
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border text-gray-600 hover:border-primary/50'
-                    }`}
+                      }`}
                   >
                     {tipo === 'solido' ? 'Cor sólida' : 'Gradiente'}
                   </button>
@@ -271,11 +269,10 @@ export default function PaginaDesign() {
                   <button
                     key={estilo}
                     onClick={() => atualizarTema({ buttonStyle: estilo })}
-                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${
-                      tema.buttonStyle === estilo
+                    className={`flex-1 py-2 text-xs font-medium rounded-lg border transition-colors ${tema.buttonStyle === estilo
                         ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border text-gray-600 hover:border-primary/50'
-                    }`}
+                      }`}
                   >
                     {estilo === 'solido' ? 'Sólido' : 'Borda'}
                   </button>
@@ -287,19 +284,18 @@ export default function PaginaDesign() {
                 <p className="text-xs text-gray-500">Arredondamento</p>
                 <div className="grid grid-cols-4 gap-2">
                   {([
-                    ['quadrado', '0px'],
+                    ['retangular', '0px'],
+                    ['quadrado', '4px'],
                     ['arredondado', '8px'],
-                    ['mais-arredondado', '16px'],
                     ['full', '9999px'],
                   ] as const).map(([val, radius]) => (
                     <button
                       key={val}
                       onClick={() => atualizarTema({ buttonBorderRadius: val })}
-                      className={`py-2.5 border transition-colors text-xs font-medium ${
-                        tema.buttonBorderRadius === val
+                      className={`py-2.5 border transition-colors text-xs font-medium ${tema.buttonBorderRadius === val
                           ? 'border-primary bg-primary/10 text-primary'
                           : 'border-border text-gray-600 hover:border-primary/50'
-                      }`}
+                        }`}
                       style={{ borderRadius: radius }}
                     >
                       Aa
@@ -344,7 +340,7 @@ export default function PaginaDesign() {
       </div>
 
       {/* ── Preview mobile (desktop only) ────────────────────────── */}
-      <div className="hidden xl:flex items-start pt-6 pr-8 sticky top-6">
+      <div className="hidden xl:flex items-start pt-6 pr-8 sticky top-6 self-start">
         {perfil && <MobilePreview perfil={perfil} links={links} />}
       </div>
     </div>

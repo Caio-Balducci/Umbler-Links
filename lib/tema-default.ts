@@ -12,7 +12,7 @@ export function temaDefault(): ThemeConfig {
     linkFont: 'Inter',
     linkColor: '#ffffff',
     buttonStyle: 'solido',
-    buttonBorderRadius: 'arredondado',
+    buttonBorderRadius: 'quadrado',
     buttonColor: '#6B2FD9',
     buttonTextColor: '#ffffff',
     nameColor: '#111827',

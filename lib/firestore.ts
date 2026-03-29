@@ -68,11 +68,12 @@ export async function getUserLinks(uid: string): Promise<Link[]> {
 export async function getActiveUserLinks(uid: string): Promise<Link[]> {
   const q = query(
     collection(db, 'users', uid, 'links'),
-    where('active', '==', true),
     orderBy('order', 'asc')
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Link));
+  return snap.docs
+    .map((d) => ({ id: d.id, ...d.data() } as Link))
+    .filter((l) => l.active);
 }
 
 // Adiciona novo link

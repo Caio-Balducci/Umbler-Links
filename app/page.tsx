@@ -23,29 +23,30 @@ export default function LandingPage() {
 
       <main className="flex-1">
         {/* ── Hero ───────────────────────────────────────────────── */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#6B2FD9] via-[#8B4FF0] to-[#B07AF5] py-24 sm:py-36 text-white">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#13857f] via-[#006254] to-[#022720] py-24 sm:py-36 text-white">
           {/* círculos decorativos */}
           <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
 
           <div className="relative mx-auto max-w-3xl px-4 sm:px-6 text-center">
-            <span className="mb-6 inline-block rounded-full bg-white/20 px-4 py-1.5 text-sm font-medium">
-              100% gratuito para sempre
+            <span className="mb-6 inline-block rounded-full bg-[#eef7f6]/20 px-4 py-1.5 text-sm font-medium">
+              100% grátis, sem limites de links
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
-              Todos os seus links <br className="hidden sm:block" />
-              em um só lugar
+            <h1 className="flex flex-col items-center justify-center font-extrabold leading-tight tracking-tight text-center">
+              <span className="block whitespace-nowrap text-2xl sm:text-4xl lg:text-6xl">Transforme seu link na bio</span>
+              <span className="block whitespace-nowrap text-2xl sm:text-4xl lg:text-6xl">em uma máquina de cliques</span>
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-white/85 max-w-xl mx-auto">
-              Crie sua página personalizada, compartilhe nas bio das redes sociais e acompanhe os
-              cliques em tempo real. Simples assim.
+              <strong>Não é só uma página de links.</strong> Organize automaticamente seus links por
+              performance, faça testes A/B e crie mini funis dentro de cada botão para aumentar
+              seus cliques.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/cadastro"
                 className={cn(
                   buttonVariants({ size: 'lg' }),
-                  'bg-white text-[#6B2FD9] hover:bg-white/90 font-semibold text-base px-8'
+                  'bg-[#67ffcf] text-black hover:bg-[#67ffcf]/70 active:bg-[#67ffcf]/70 font-semibold text-base px-8 border-0 rounded-full'
                 )}
               >
                 Criar minha página grátis
@@ -53,15 +54,15 @@ export default function LandingPage() {
               <Link
                 href="/login"
                 className={cn(
-                  buttonVariants({ variant: 'outline', size: 'lg' }),
-                  'border-white text-white hover:bg-white/10 font-semibold text-base px-8'
+                  buttonVariants({ size: 'lg' }),
+                  'bg-[#67ffcf] text-black hover:bg-[#67ffcf]/70 active:bg-[#67ffcf]/70 font-semibold text-base px-8 border-0 rounded-full'
                 )}
               >
-                Já tenho conta, entrar
+                Já tenho conta
               </Link>
             </div>
             <p className="mt-4 text-sm text-white/60">
-              Sem cartão de crédito · Sem período de teste · Grátis para sempre
+              O link na bio mais inteligente que você já usou
             </p>
           </div>
         </section>
@@ -70,7 +71,7 @@ export default function LandingPage() {
         <section className="py-20 sm:py-28 bg-white">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="text-center mb-14">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              <h2 className="text-2xl sm:text-4xl font-bold text-gray-900">
                 Tudo que você precisa, sem complicação
               </h2>
               <p className="mt-4 text-lg text-gray-500 max-w-xl mx-auto">
@@ -81,7 +82,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
               <Card className="border border-border shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 flex flex-col items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#eef7f6]">
                     <PaletteIcon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -96,7 +97,7 @@ export default function LandingPage() {
 
               <Card className="border border-border shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 flex flex-col items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#eef7f6]">
                     <BarChartIcon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -113,7 +114,7 @@ export default function LandingPage() {
 
               <Card className="border border-border shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 flex flex-col items-start gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#eef7f6]">
                     <GiftIcon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -134,7 +135,7 @@ export default function LandingPage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
               <div className="flex-1 text-center lg:text-left">
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                <h2 className="text-2xl sm:text-4xl font-bold text-gray-900">
                   Sua página, do seu jeito
                 </h2>
                 <p className="mt-4 text-lg text-gray-500 leading-relaxed">
@@ -168,7 +169,7 @@ export default function LandingPage() {
                     <div className="flex justify-center py-2 bg-gray-800">
                       <div className="h-2 w-14 rounded-full bg-gray-600" />
                     </div>
-                    <div className="bg-gradient-to-b from-[#6B2FD9] to-[#8B4FF0] px-4 pb-6 pt-8 min-h-[480px]">
+                    <div className="bg-gradient-to-b from-[#13857f] to-[#006254] px-4 pb-6 pt-8 min-h-[480px]">
                       <div className="flex flex-col items-center gap-2 mb-6">
                         <div className="h-16 w-16 rounded-full bg-white/30 border-2 border-white/50" />
                         <p className="text-white font-bold text-sm">João Silva</p>
@@ -192,9 +193,9 @@ export default function LandingPage() {
         </section>
 
         {/* ── CTA Final ──────────────────────────────────────────── */}
-        <section className="py-20 sm:py-28 bg-[#6B2FD9] text-white text-center">
+        <section className="py-20 sm:py-28 bg-gradient-to-br from-[#13857f] via-[#006254] to-[#022720] text-white text-center">
           <div className="mx-auto max-w-2xl px-4 sm:px-6">
-            <h2 className="text-3xl sm:text-4xl font-bold">
+            <h2 className="text-2xl sm:text-4xl font-bold">
               Pronto para centralizar seus links?
             </h2>
             <p className="mt-4 text-lg text-white/80">
@@ -205,7 +206,7 @@ export default function LandingPage() {
                 href="/cadastro"
                 className={cn(
                   buttonVariants({ size: 'lg' }),
-                  'bg-white text-[#6B2FD9] hover:bg-white/90 font-semibold text-base px-10'
+                  'bg-[#67ffcf] text-black hover:bg-[#67ffcf]/70 active:bg-[#67ffcf]/70 font-semibold text-base px-10 border-0'
                 )}
               >
                 Criar minha página grátis

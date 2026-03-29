@@ -21,11 +21,11 @@ export function MobilePreview({ perfil, links }: MobilePreviewProps) {
   const borderRadiusBtn =
     tema.buttonBorderRadius === 'full'
       ? '9999px'
-      : tema.buttonBorderRadius === 'mais-arredondado'
-      ? '16px'
       : tema.buttonBorderRadius === 'arredondado'
-      ? '8px'
-      : '4px';
+        ? '8px'
+        : tema.buttonBorderRadius === 'quadrado'
+          ? '4px'
+          : '0px'; // retangular
 
   const fontMap: Record<string, string> = {
     Inter: '"Inter", sans-serif',
@@ -62,8 +62,8 @@ export function MobilePreview({ perfil, links }: MobilePreviewProps) {
                   tema.avatarShape === 'circular'
                     ? '9999px'
                     : tema.avatarShape === 'quadrado'
-                    ? '8px'
-                    : '8px',
+                      ? '8px'
+                      : '8px',
                 backgroundColor: tema.avatarShape === 'fundo' ? 'rgba(255,255,255,0.2)' : undefined,
                 padding: tema.avatarShape === 'fundo' ? '4px' : undefined,
               }}

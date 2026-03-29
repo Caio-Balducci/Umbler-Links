@@ -31,7 +31,7 @@ export interface ThemeConfig {
   linkColor: string;
   // Botões
   buttonStyle: 'solido' | 'borda';
-  buttonBorderRadius: 'quadrado' | 'arredondado' | 'mais-arredondado' | 'full';
+  buttonBorderRadius: 'retangular' | 'quadrado' | 'arredondado' | 'full';
   buttonColor: string;
   buttonTextColor: string;
   // Esquema de cores

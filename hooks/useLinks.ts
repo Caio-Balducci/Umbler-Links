@@ -55,5 +55,18 @@ export function useLinks(uid: string | null) {
     [uid]
   );
 
-  return { links, carregando, carregar, adicionar, atualizar, remover };
+  const reordenar = useCallback(
+    (reordenados: Link[]) => {
+      if (!uid) return;
+      // Atualiza local imediatamente para não ter snap-back
+      setLinks(reordenados);
+      // Salva no Firestore em paralelo (sem await para não bloquear UI)
+      Promise.all(
+        reordenados.map((l) => updateLink(uid, l.id, { order: l.order }))
+      ).catch(console.error);
+    },
+    [uid]
+  );
+
+  return { links, carregando, carregar, adicionar, atualizar, remover, reordenar };
 }

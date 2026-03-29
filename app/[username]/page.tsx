@@ -30,6 +30,25 @@ export async function generateStaticParams() {
   }
 }
 
+// Converte qualquer valor para tipos simples serializáveis pelo Next.js
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function serializar(obj: Record<string, any>): Record<string, any> {
+  const resultado: Record<string, any> = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (v === null || v === undefined) {
+      resultado[k] = v ?? null;
+    } else if (typeof v?.toDate === 'function') {
+      // Firestore Admin Timestamp → string ISO
+      resultado[k] = (v.toDate() as Date).toISOString();
+    } else if (typeof v === 'object' && !Array.isArray(v)) {
+      resultado[k] = serializar(v as Record<string, any>);
+    } else {
+      resultado[k] = v;
+    }
+  }
+  return resultado;
+}
+
 // ─── Busca de dados ──────────────────────────────────────────────
 async function buscarDadosUsuario(username: string): Promise<{
   perfil: UserProfile;
@@ -46,17 +65,18 @@ async function buscarDadosUsuario(username: string): Promise<{
   if (usersSnap.empty) return null;
 
   const perfilDoc = usersSnap.docs[0];
-  const perfil = perfilDoc.data() as UserProfile;
+  const perfil = serializar(perfilDoc.data()) as unknown as UserProfile;
 
   const linksSnap = await db
     .collection('users')
     .doc(perfilDoc.id)
     .collection('links')
-    .where('active', '==', true)
     .orderBy('order', 'asc')
     .get();
 
-  const links = linksSnap.docs.map((d) => ({ id: d.id, ...d.data() } as LinkType));
+  const links = linksSnap.docs
+    .map((d) => serializar({ id: d.id, ...d.data() }) as unknown as LinkType)
+    .filter((l) => l.active);
 
   return { perfil, links };
 }

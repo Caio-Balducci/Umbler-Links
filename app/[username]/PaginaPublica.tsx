@@ -17,7 +17,7 @@ function registrarClique(linkId: string, userId: string, username: string) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ linkId, userId, username }),
-  }).catch(() => {/* silencia erros de rede */});
+  }).catch(() => {/* silencia erros de rede */ });
 }
 
 export default function PaginaPublica({ perfil, links }: PaginaPublicaProps) {
@@ -31,11 +31,11 @@ export default function PaginaPublica({ perfil, links }: PaginaPublicaProps) {
   const borderRadiusBtn =
     tema.buttonBorderRadius === 'full'
       ? '9999px'
-      : tema.buttonBorderRadius === 'mais-arredondado'
-      ? '20px'
       : tema.buttonBorderRadius === 'arredondado'
-      ? '10px'
-      : '4px';
+        ? '8px'
+        : tema.buttonBorderRadius === 'quadrado'
+          ? '4px'
+          : '0px'; // retangular
 
   const fontMap: Record<string, string> = {
     Inter: '"Inter", sans-serif',

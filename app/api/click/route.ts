@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { initializeApp, getApps } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import { revalidatePath } from 'next/cache';
 
-// Inicializa o Firebase Admin SDK — apenas server-side, nunca exposto ao cliente
+// Inicializa o Firebase Admin SDK — usa ADC (Application Default Credentials)
+// No Firebase App Hosting as credenciais são injetadas automaticamente pelo ambiente
 function getAdminDb() {
   if (getApps().length === 0) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const serviceAccount = require('../../../SDK-firebase.json');
-    initializeApp({ credential: cert(serviceAccount) });
+    initializeApp();
   }
   return getFirestore();
 }

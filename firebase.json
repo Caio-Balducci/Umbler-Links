@@ -16,5 +16,16 @@
     "frameworksBackend": {
       "region": "us-central1"
     }
+  },
+  "apphosting": {
+    "backendId": "umbler-links",
+    "rootDir": "C:\\Users\\caiob\\OneDrive\\Documentos\\Umbler Links",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "functions"
+    ]
   }
 }

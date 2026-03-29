@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { initializeApp, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { UserProfile, Link as LinkType } from '@/types';
 import PaginaPublica from './PaginaPublica';
@@ -8,11 +8,10 @@ import PaginaPublica from './PaginaPublica';
 export const revalidate = 60; // ISR: revalida a cada 60 segundos
 
 // ─── Firebase Admin (server-side only) ──────────────────────────
+// Usa ADC — no Firebase App Hosting as credenciais são injetadas automaticamente
 function getAdminDb() {
   if (getApps().length === 0) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const serviceAccount = require('../../SDK-firebase.json');
-    initializeApp({ credential: cert(serviceAccount) });
+    initializeApp();
   }
   return getFirestore();
 }

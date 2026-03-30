@@ -61,7 +61,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-border">
         {/* Logo */}
         <div className="px-5 py-5 border-b border-border">
-          <span className="text-lg font-bold text-primary">Umbler Link</span>
+          <span className="text-lg font-bold text-primary">Umbler Links</span>
         </div>
 
         {/* Perfil do usuário */}
@@ -124,7 +124,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Header mobile */}
         <header className="md:hidden flex items-center justify-between px-4 h-14 bg-white border-b border-border">
-          <span className="text-base font-bold text-primary">Umbler Link</span>
+          <span className="text-base font-bold text-primary">Umbler Links</span>
           <a
             href={`/${perfil?.username}`}
             target="_blank"

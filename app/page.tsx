@@ -70,8 +70,8 @@ export default function LandingPage() {
             </span>
 
             <h1 className="flex flex-col items-center justify-center font-extrabold leading-tight tracking-tight">
-              <span className="block whitespace-nowrap text-[clamp(1.2rem,5.2vw,3.75rem)]">Transforme seu link na bio</span>
-              <span className="block text-[clamp(1.4rem,5.8vw,3.75rem)] text-[#67ffcf]">em resultados reais</span>
+              <span className="block whitespace-nowrap text-[clamp(1.75rem,5.2vw,3.75rem)]">Transforme seu link na bio</span>
+              <span className="block text-[clamp(1.75rem,5.8vw,3.75rem)] text-[#67ffcf]">em resultados reais</span>
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed">

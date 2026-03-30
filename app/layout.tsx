@@ -8,7 +8,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: 'Umbler Link — Todos os seus links em um só lugar',
+  title: 'Umbler Links — Todos os seus links em um só lugar',
   description:
     'Crie sua página de links personalizada e compartilhe tudo que você faz em um único endereço. Gratuito e fácil de usar.',
 };

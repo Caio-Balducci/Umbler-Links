@@ -97,10 +97,10 @@ export async function generateMetadata({
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://umbler.link';
 
   return {
-    title: `${perfil.displayName} — Umbler Link`,
+    title: `${perfil.displayName} — Umbler Links`,
     description: perfil.bio || `Veja todos os links de ${perfil.displayName} em um só lugar.`,
     openGraph: {
-      title: `${perfil.displayName} — Umbler Link`,
+      title: `${perfil.displayName} — Umbler Links`,
       description: perfil.bio || `Veja todos os links de ${perfil.displayName}.`,
       images: perfil.avatarUrl ? [{ url: perfil.avatarUrl }] : [],
       url: `${appUrl}/${username}`,
@@ -108,7 +108,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary',
-      title: `${perfil.displayName} — Umbler Link`,
+      title: `${perfil.displayName} — Umbler Links`,
       description: perfil.bio || `Veja todos os links de ${perfil.displayName}.`,
       images: perfil.avatarUrl ? [perfil.avatarUrl] : [],
     },

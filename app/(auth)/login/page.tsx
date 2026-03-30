@@ -102,7 +102,7 @@ export default function PaginaLogin() {
     <Card className="w-full max-w-md shadow-sm">
       <CardHeader className="text-center pb-4">
         <CardTitle className="text-2xl">Entrar na sua conta</CardTitle>
-        <CardDescription>Bem-vindo de volta ao Umbler Link</CardDescription>
+        <CardDescription>Bem-vindo de volta ao Umbler Links</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-5">

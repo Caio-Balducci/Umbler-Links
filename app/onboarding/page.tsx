@@ -272,7 +272,7 @@ export default function PaginaOnboarding() {
       <header className="bg-white border-b border-border px-4 sm:px-6 py-4">
         <div className="mx-auto max-w-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-base font-bold text-primary">Umbler Link</span>
+            <span className="text-base font-bold text-primary">Umbler Links</span>
             <span className="text-sm text-muted-foreground">
               Etapa {etapa} de {totalEtapas}
             </span>
@@ -388,7 +388,7 @@ export default function PaginaOnboarding() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="comoConheceu">Como você conheceu o Umbler Link?</Label>
+                  <Label htmlFor="comoConheceu">Como você conheceu o Umbler Links?</Label>
                   <select
                     id="comoConheceu"
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"

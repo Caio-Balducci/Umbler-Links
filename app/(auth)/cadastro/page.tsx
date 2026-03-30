@@ -91,7 +91,7 @@ export default function PaginaCadastro() {
     <Card className="w-full max-w-md shadow-sm">
       <CardHeader className="text-center pb-4">
         <CardTitle className="text-2xl">Crie sua conta</CardTitle>
-        <CardDescription>Comece a usar o Umbler Link gratuitamente</CardDescription>
+        <CardDescription>Comece a usar o Umbler Links gratuitamente</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-5">

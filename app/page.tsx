@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 /* ── SEO Metadata ──────────────────────────────────────────────── */
 export const metadata: Metadata = {
-  title: 'Umbler Link — Página de Links Inteligente com Analytics e Teste A/B',
+  title: 'Umbler Links — Página de Links Inteligente com Analytics e Teste A/B',
   description:
     'Crie sua página de links gratuita com analytics completo, teste A/B de títulos, ordenação automática por cliques e exportação de relatórios com prompts de IA. O link na bio mais inteligente do Brasil.',
   keywords: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'umbler link',
   ],
   openGraph: {
-    title: 'Umbler Link — Página de Links com Analytics, A/B e IA',
+    title: 'Umbler Links — Página de Links com Analytics, A/B e IA',
     description:
       'Não é só uma página de links. Faça testes A/B, acompanhe indicadores, exporte relatórios e use IA para crescer mais rápido. Grátis.',
     type: 'website',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Umbler Link — O link na bio mais inteligente',
+    title: 'Umbler Links — O link na bio mais inteligente',
     description:
       'Analytics, Teste A/B, ordenação automática por cliques e prompts de IA. Crie sua página grátis.',
   },
@@ -42,7 +42,7 @@ export default function LandingPage() {
       {/* ── Navbar ─────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/80 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 flex h-16 items-center justify-between">
-          <span className="text-xl font-bold text-primary">Umbler Link</span>
+          <span className="text-xl font-bold text-primary">Umbler Links</span>
           <nav className="flex items-center gap-3">
             <Link href="/login" className={buttonVariants({ variant: 'ghost' })}>
               Entrar
@@ -59,7 +59,7 @@ export default function LandingPage() {
         {/* ── Hero ───────────────────────────────────────────────── */}
         <section
           className="relative overflow-hidden bg-gradient-to-br from-[#13857f] via-[#006254] to-[#022720] py-24 sm:py-36 text-white"
-          aria-label="Apresentação do Umbler Link"
+          aria-label="Apresentação do Umbler Links"
         >
           <div className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-white/10 blur-3xl" />
@@ -69,7 +69,7 @@ export default function LandingPage() {
               100% grátis · Analytics · Teste A/B · IA
             </span>
 
-            <h1 className="font-extrabold leading-tight tracking-tight">
+            <h1 className="flex flex-col items-center justify-center font-extrabold leading-tight tracking-tight">
               <span className="block whitespace-nowrap text-[clamp(1.2rem,5.2vw,3.75rem)]">Transforme seu link na bio</span>
               <span className="block text-[clamp(1.4rem,5.8vw,3.75rem)] text-[#67ffcf]">em resultados reais</span>
             </h1>
@@ -134,7 +134,7 @@ export default function LandingPage() {
                 Tudo que você precisa para crescer, em um só lugar
               </h2>
               <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
-                Enquanto outros apenas exibem links, o Umbler Link trabalha pelos seus resultados.
+                Enquanto outros apenas exibem links, o Umbler Links trabalha pelos seus resultados.
               </p>
             </div>
 
@@ -244,7 +244,7 @@ export default function LandingPage() {
                   Pare de adivinhar. Comece a testar.
                 </h2>
                 <p className="mt-4 text-lg text-gray-500 leading-relaxed">
-                  Com o Teste A/B do Umbler Link você compara dois títulos para o mesmo link e descobre
+                  Com o Teste A/B do Umbler Links você compara dois títulos para o mesmo link e descobre
                   qual gera mais cliques — com dados reais do seu público.
                 </p>
                 <ul className="mt-6 space-y-3">
@@ -489,7 +489,7 @@ export default function LandingPage() {
       {/* ── Footer ─────────────────────────────────────────────── */}
       <footer className="border-t border-border bg-white py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <span className="font-semibold text-primary">Umbler Link</span>
+          <span className="font-semibold text-primary">Umbler Links</span>
           <div className="flex gap-6">
             <a href="https://umbler.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
               Umbler

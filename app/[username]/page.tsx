@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { UserProfile, Link as LinkType } from '@/types';
 import PaginaPublica from './PaginaPublica';
 
-export const revalidate = 60; // ISR: revalida a cada 60 segundos
+export const dynamic = 'force-dynamic'; // sempre busca dados frescos do Firestore
 
 // ─── Firebase Admin (server-side only) ──────────────────────────
 // Usa ADC — no Firebase App Hosting as credenciais são injetadas automaticamente
@@ -14,19 +14,6 @@ function getAdminDb() {
     initializeApp();
   }
   return getFirestore();
-}
-
-// ─── generateStaticParams ────────────────────────────────────────
-export async function generateStaticParams() {
-  try {
-    const db = getAdminDb();
-    const snap = await db.collection('users').limit(100).get();
-    return snap.docs
-      .map((doc) => ({ username: doc.data().username as string }))
-      .filter(Boolean);
-  } catch {
-    return [];
-  }
 }
 
 // Converte qualquer valor para tipos simples serializáveis pelo Next.js

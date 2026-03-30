@@ -448,17 +448,28 @@ export default function PaginaOnboarding() {
                         style={{ background: bg }}
                       >
                         <div
-                          className="h-7 w-7 rounded-full"
+                          className="h-7 w-7 rounded-full flex-shrink-0"
                           style={{ backgroundColor: tema.config.nameColor + '40', border: `1.5px solid ${tema.config.nameColor}60` }}
                         />
-                        <div className="w-16 h-2 rounded-full" style={{ backgroundColor: tema.config.nameColor + '80' }} />
-                        {['', ''].map((_, i) => (
+                        <span
+                          className="text-[9px] font-semibold leading-none"
+                          style={{ color: tema.config.nameColor }}
+                        >
+                          Seu Nome
+                        </span>
+                        {['Meu Instagram', 'Meu Site'].map((label, i) => (
                           <div
                             key={i}
-                            className="w-20 h-4 rounded"
+                            className="w-24 h-4 flex items-center justify-center"
                             style={{
-                              backgroundColor: tema.config.buttonColor,
-                              opacity: 0.9,
+                              backgroundColor:
+                                tema.config.buttonStyle === 'borda'
+                                  ? 'transparent'
+                                  : tema.config.buttonColor,
+                              border:
+                                tema.config.buttonStyle === 'borda'
+                                  ? `1px solid ${tema.config.buttonColor}`
+                                  : 'none',
                               borderRadius:
                                 tema.config.buttonBorderRadius === 'full'
                                   ? '9999px'
@@ -468,7 +479,14 @@ export default function PaginaOnboarding() {
                                   ? '4px'
                                   : '0px',
                             }}
-                          />
+                          >
+                            <span
+                              className="text-[7px] font-medium leading-none truncate px-1"
+                              style={{ color: tema.config.buttonTextColor }}
+                            >
+                              {label}
+                            </span>
+                          </div>
                         ))}
                       </div>
                       <div className="py-1.5 text-center text-xs font-medium text-gray-700 bg-white">

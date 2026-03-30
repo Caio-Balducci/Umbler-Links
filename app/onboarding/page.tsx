@@ -12,6 +12,7 @@ import { ThemeConfig, PlatformType } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { AvatarCropModal } from '@/components/editor/AvatarCropModal';
 import { onAuthStateChanged } from 'firebase/auth';
 
 // ─── Temas pré-definidos ─────────────────────────────────────────
@@ -152,8 +153,9 @@ export default function PaginaOnboarding() {
   const [temaSelecionado, setTemaSelecionado] = useState('roxo-umbler');
   const [plataformasSelecionadas, setPlataformasSelecionadas] = useState<PlatformType[]>([]);
   const [urlsPlataformas, setUrlsPlataformas] = useState<Record<string, string>>({});
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarBlob, setAvatarBlob] = useState<Blob | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState('');
 
@@ -193,8 +195,17 @@ export default function PaginaOnboarding() {
   function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    setAvatarFile(file);
-    setAvatarPreview(URL.createObjectURL(file));
+    const reader = new FileReader();
+    reader.onload = () => setCropSrc(reader.result as string);
+    reader.readAsDataURL(file);
+    // reset input so o mesmo arquivo pode ser selecionado novamente
+    e.target.value = '';
+  }
+
+  async function confirmarCrop(blob: Blob) {
+    setAvatarBlob(blob);
+    setAvatarPreview(URL.createObjectURL(blob));
+    setCropSrc(null);
   }
 
   function togglePlataforma(id: PlatformType) {
@@ -217,9 +228,9 @@ export default function PaginaOnboarding() {
     try {
       // Upload do avatar
       let avatarUrl = '';
-      if (avatarFile) {
+      if (avatarBlob) {
         const avatarRef = ref(storage, `avatars/${uid}`);
-        await uploadBytes(avatarRef, avatarFile);
+        await uploadBytes(avatarRef, avatarBlob);
         avatarUrl = await getDownloadURL(avatarRef);
       }
 
@@ -268,6 +279,13 @@ export default function PaginaOnboarding() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      {cropSrc && (
+        <AvatarCropModal
+          imageSrc={cropSrc}
+          onConfirmar={confirmarCrop}
+          onCancelar={() => setCropSrc(null)}
+        />
+      )}
       {/* Cabeçalho com progresso */}
       <header className="bg-white border-b border-border px-4 sm:px-6 py-4">
         <div className="mx-auto max-w-lg">
